@@ -20,7 +20,7 @@ public interface Volume {
 	/**
 	 * @return the data length
 	 */
-	long getLength();
+	long getLength() throws IOException;
 	
 	/**
 	 * @return the archive this volume belongs to
