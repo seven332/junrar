@@ -17,6 +17,7 @@
 package com.github.junrar.testUtil;
 
 import com.github.junrar.Archive;
+import com.github.junrar.BaseTestCase;
 import com.github.junrar.Junrar;
 import com.github.junrar.TestCommons;
 import com.github.junrar.exception.RarException;
@@ -32,7 +33,7 @@ import java.net.URISyntaxException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class SimpleTest {
+public class SimpleTest extends BaseTestCase {
 
     @Test
     public void testTikaDocs() throws Exception {
@@ -47,7 +48,7 @@ public class SimpleTest {
                 "testXML.xml", "766"};
 
 
-        File f = new File(getClass().getResource("test-documents.rar").toURI());
+        File f = getResource(getClass(), "test-documents.rar");
         Archive archive = null;
         try {
             archive = new Archive(new FileVolumeManager(f));
@@ -68,7 +69,7 @@ public class SimpleTest {
     @Test(expected = RarException.class)
     public void nullMainHeaderFile_throwsRarException() throws URISyntaxException, IOException, RarException {
         final File tempDir = TestCommons.createTempDir();
-        final File f = new File(getClass().getResource("test-mainHeaderNull.rar").toURI());
+        final File f = getResource(getClass(), "test-mainHeaderNull.rar");
         Junrar.extract(f, tempDir);
     }
 
