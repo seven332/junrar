@@ -15,7 +15,7 @@ public class BaseTestCase {
 
   private static boolean isAndroid;
 
-  private static final List<File> tempCopies = new ArrayList<>();
+  private static final List<File> tempCopies = new ArrayList<File>();
 
   static {
     try {
@@ -31,9 +31,15 @@ public class BaseTestCase {
     if (isAndroid) {
       File of = File.createTempFile("copyFile", new File(path).getName());
 
-      try (InputStream is = clazz.getResourceAsStream(path);
-          OutputStream os = new FileOutputStream(of)) {
+      InputStream is = null;
+      OutputStream os = null;
+      try {
+        is = clazz.getResourceAsStream(path);
+        os = new FileOutputStream(of);
         IOUtils.copy(is, os);
+      } finally {
+        IOUtils.closeQuietly(is);
+        IOUtils.closeQuietly(os);
       }
 
       synchronized (tempCopies) {
